@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
-public class EmployeeLoader {
+public class EmployeeLoader implements EmployeeRepository {
     private RecordLoader rl;
 
     public List<Employee> loadEmployees() {

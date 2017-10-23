@@ -18,6 +18,7 @@ public class EmployeeLoaderCollaborationTest {
     public void requestsDataFromRecordLoader() {
         RecordLoader mockLoader = mock(RecordLoader.class);
         EmployeeLoader employeeLoader = new EmployeeLoader(mockLoader);
+        employeeLoader.loadEmployees();
         verify(mockLoader).loadRecords();
     }
 
