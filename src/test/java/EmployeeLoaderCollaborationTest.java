@@ -3,6 +3,7 @@ import net.solasistim.birthdaygreetings.EmployeeLoader;
 import net.solasistim.birthdaygreetings.RecordLoader;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,19 +27,34 @@ public class EmployeeLoaderCollaborationTest {
     public void canLoadZeroEmployees() {
         RecordLoader mockLoader = mock(RecordLoader.class);
 
-        List<List<String>> zeroResults = new ArrayList<>();
+        List<List<String>> zeroRows = new ArrayList<>();
+        List<Employee> expected = new ArrayList<>();
 
-        when(mockLoader.loadRecords()).thenReturn(zeroResults);
+        when(mockLoader.loadRecords()).thenReturn(zeroRows);
 
         EmployeeLoader employeeLoader = new EmployeeLoader(mockLoader);
 
         List<Employee> concreteResult = employeeLoader.loadEmployees();
 
-        assertEquals(zeroResults, concreteResult);
+        assertEquals(expected, concreteResult);
     }
 
+    @Test
     public void canLoadOneEmployee() {
+        RecordLoader mockLoader = mock(RecordLoader.class);
 
+        List<List<String>> oneRow = new ArrayList<>();
+        oneRow.add(Arrays.asList("Leela", "Turanga", "1975-07-29", "leela@planet-express.com"));
+        when(mockLoader.loadRecords()).thenReturn(oneRow);
+
+        EmployeeLoader employeeLoader = new EmployeeLoader(mockLoader);
+        List<Employee> concreteResult = employeeLoader.loadEmployees();
+
+        List<Employee> expected = Arrays.asList(
+                new Employee("Leela", "Turanga", LocalDate.of(1975, 07, 29), "leela@planet-express.com")
+        );
+
+        assertEquals(expected, concreteResult);
     }
 
     public void canLoadManyEmployees() {
